@@ -29,6 +29,9 @@ def move_scissor_arm_lineair(distance_increment=None, distance_absolute=None):
     else:
         return
     
+    if new_distance > 45 or new_distance < 0:
+        return
+    
     print(SARM_LINEAIR_DISTANCE)
     
     def load_cubic_line(coefficients_file):

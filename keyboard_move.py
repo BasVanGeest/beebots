@@ -29,6 +29,8 @@ def move_scissor_arm_lineair(distance_increment=None, distance_absolute=None):
     else:
         return
     
+    print(SARM_LINEAIR_DISTANCE)
+    
     def load_cubic_line(coefficients_file):
         coefficients = np.load(coefficients_file)
         return np.poly1d(coefficients)

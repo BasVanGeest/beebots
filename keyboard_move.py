@@ -29,7 +29,7 @@ def move_scissor_arm_lineair(distance_increment=None, distance_absolute=None):
     else:
         return
     
-    if new_distance > 45 or new_distance < 0:
+    if new_distance > 45 or new_distance < 25:
         return
     
     print(SARM_LINEAIR_DISTANCE)

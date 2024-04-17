@@ -14,15 +14,14 @@ SARM_PIVOT_ANGLE = 80 #11
 
 
 def init_scissor_arm():
-    SARM_LINEAIR_DISTANCE = 25 #0
-    SARM_TURN_ANGLE = 0 #7
-    SARM_PIVOT_ANGLE = 100 #11
+    global SARM_LINEAIR_DISTANCE, SARM_TURN_ANGLE, SARM_PIVOT_ANGLE
     move_scissor_arm_lineair(distance_absolute=SARM_LINEAIR_DISTANCE)
     kit.servo[7].angle = SARM_TURN_ANGLE
     kit.servo[8].angle = SARM_PIVOT_ANGLE
     kit.servo[11].angle = 180 - SARM_PIVOT_ANGLE 
   
 def move_scissor_arm_lineair(distance_increment=None, distance_absolute=None):
+    global SARM_LINEAIR_DISTANCE
     if distance_increment:
         new_distance = SARM_LINEAIR_DISTANCE + distance_increment
     elif distance_absolute:
@@ -49,6 +48,7 @@ def move_scissor_arm_lineair(distance_increment=None, distance_absolute=None):
     SARM_LINEAIR_DISTANCE = new_distance
 
 def move_scissor_arm_turn(angle_increment=None, angle_absolute=None):
+    global SARM_TURN_ANGLE
     if angle_increment:
         new_angle = SARM_TURN_ANGLE + angle_increment
     elif angle_absolute:
@@ -65,6 +65,7 @@ def move_scissor_arm_turn(angle_increment=None, angle_absolute=None):
     print(new_angle)
 
 def move_scissor_arm_pivot(angle_increment=None, angle_absolute=None):
+    global SARM_PIVOT_ANGLE
     if angle_increment:
         new_angle = SARM_PIVOT_ANGLE + angle_increment
     elif angle_absolute:
@@ -77,19 +78,19 @@ def move_scissor_arm_pivot(angle_increment=None, angle_absolute=None):
 
 def main():
     while True:
-        if keyboard_move.is_pressed('left'):
+        if keyboard.is_pressed('left'):
             move_scissor_arm_pivot(angle_increment=3)
-        elif keyboard_move.is_pressed('right'):
+        elif keyboard.is_pressed('right'):
             move_scissor_arm_pivot(angle_increment=-3)
-        elif keyboard_move.is_pressed('a'):
+        elif keyboard.is_pressed('a'):
             move_scissor_arm_turn(angle_increment=-5)
-        elif keyboard_move.is_pressed('d'):
+        elif keyboard.is_pressed('d'):
             move_scissor_arm_turn(angle_increment=5)
-        elif keyboard_move.is_pressed('up'):
+        elif keyboard.is_pressed('up'):
             move_scissor_arm_lineair(distance_increment=2)
-        elif keyboard_move.is_pressed('down'):
+        elif keyboard.is_pressed('down'):
             move_scissor_arm_lineair(distance_increment=-2)
-        elif keyboard_move.is_pressed('i'):
+        elif keyboard.is_pressed('i'):
             init_scissor_arm()    
         time.sleep(0.1)   
 main()

@@ -5,7 +5,7 @@ import numpy as np
 from adafruit_servokit import ServoKit
 kit = ServoKit(channels=16)
 for i in range(16):
-    kit.servo[i].set_pulse_width_range(500, 2500)      #set pulse width range to 500-2500 # Adjust pulse range if needed
+    kit.servo[i].set_pulse_width_range(500, 2500) #set pulse width range to 500-2500 # Adjust pulse range if needed
 
 
 SARM_LINEAIR_DISTANCE = 25 #0
@@ -20,7 +20,7 @@ def init_scissor_arm():
     move_scissor_arm_lineair(distance_absolute=SARM_LINEAIR_DISTANCE)
     kit.servo[7].angle = SARM_TURN_ANGLE
     kit.servo[8].angle = SARM_PIVOT_ANGLE
-    kit.servo[11].angle = 180-SARM_PIVOT_ANGLE 
+    kit.servo[11].angle = 180 - SARM_PIVOT_ANGLE 
   
 def move_scissor_arm_lineair(distance_increment=None, distance_absolute=None):
     if distance_increment:
@@ -77,19 +77,19 @@ def move_scissor_arm_pivot(angle_increment=None, angle_absolute=None):
 
 def main():
     while True:
-        if keyboard.is_pressed('left'):
+        if keyboard_move.is_pressed('left'):
             move_scissor_arm_pivot(angle_increment=3)
-        elif keyboard.is_pressed('right'):
+        elif keyboard_move.is_pressed('right'):
             move_scissor_arm_pivot(angle_increment=-3)
-        elif keyboard.is_pressed('a'):
+        elif keyboard_move.is_pressed('a'):
             move_scissor_arm_turn(angle_increment=-5)
-        elif keyboard.is_pressed('d'):
+        elif keyboard_move.is_pressed('d'):
             move_scissor_arm_turn(angle_increment=5)
-        elif keyboard.is_pressed('up'):
+        elif keyboard_move.is_pressed('up'):
             move_scissor_arm_lineair(distance_increment=2)
-        elif keyboard.is_pressed('down'):
+        elif keyboard_move.is_pressed('down'):
             move_scissor_arm_lineair(distance_increment=-2)
-        elif keyboard.is_pressed('i'):
+        elif keyboard_move.is_pressed('i'):
             init_scissor_arm()    
         time.sleep(0.1)   
 main()

@@ -1,6 +1,6 @@
 from adafruit_servokit import ServoKit
 import time
-import keyboard
+import keyboard_move
 from scipy.optimize import fsolve
 import cv2
 import numpy as np
@@ -190,56 +190,56 @@ def main(camera=True):
 
     while True:
   
-        if keyboard.is_pressed('left'):
+        if keyboard_move.is_pressed('left'):
             move_scissor_arm_pivot(angle_increment=3)
             print(scissor_arm_pivot_angle)
             time.sleep(0.1)
-        elif keyboard.is_pressed('right'):
+        elif keyboard_move.is_pressed('right'):
             move_scissor_arm_pivot(angle_increment=-3)
             print(scissor_arm_pivot_angle)
             time.sleep(0.1)
-        elif keyboard.is_pressed('a'):
+        elif keyboard_move.is_pressed('a'):
             move_scissor_arm_turn(angle_increment=-5)
             print(scissor_arm_turn_angle)
             time.sleep(0.1)
-        elif keyboard.is_pressed('d'):
+        elif keyboard_move.is_pressed('d'):
             move_scissor_arm_turn(angle_increment=5)
             print(scissor_arm_turn_angle)
             time.sleep(0.1)
-        elif keyboard.is_pressed('r'):
+        elif keyboard_move.is_pressed('r'):
             move_scissor_arm_lineair(distance_increment=2)
             print(scissor_arm_lineair_distance)
             time.sleep(0.1)
-        elif keyboard.is_pressed('e'):
+        elif keyboard_move.is_pressed('e'):
             move_scissor_arm_lineair(distance_increment=-2)
             print(scissor_arm_lineair_distance)
             time.sleep(0.1)
-        elif keyboard.is_pressed('i'):
+        elif keyboard_move.is_pressed('i'):
             init_scissor_arm()
             print(scissor_arm_lineair_distance)
             time.sleep(0.1)
-        elif keyboard.is_pressed('up'):
+        elif keyboard_move.is_pressed('up'):
             move_slides(angle_increment=3)
             print(slides)
             time.sleep(0.1)
-        elif keyboard.is_pressed('down'):
+        elif keyboard_move.is_pressed('down'):
             move_slides(angle_increment=-3)
             print(slides)
             time.sleep(0.1)
-        elif keyboard.is_pressed('p'):
+        elif keyboard_move.is_pressed('p'):
             # You can now control DC motors connected to the Motor HAT
             # For example, to set the speed of motor M1
             dc.motor1.throttle = 1  #positive it going away from the cabinet
             dc.motor3.throttle = 1   #positive is going away fromt the cabinet
-        elif keyboard.is_pressed('o'):
+        elif keyboard_move.is_pressed('o'):
             dc.motor1.throttle = -1  #positive it going away from the cabinet
             dc.motor3.throttle = -1   #positive is going away fromt the cabinet
-        elif keyboard.is_pressed('l'):
+        elif keyboard_move.is_pressed('l'):
             dc.motor1.throttle = 0.0
             dc.motor3.throttle = 0.0
-        elif keyboard.is_pressed('b'):
+        elif keyboard_move.is_pressed('b'):
             kit.servo[0].angle = 180
-        elif keyboard.is_pressed('n'):
+        elif keyboard_move.is_pressed('n'):
             kit.servo[0].angle = 0
 
 

@@ -3,7 +3,7 @@ import time
 import multiprocessing
 from adafruit_servokit import ServoKit
 import time
-import keyboard
+import keyboard_move
 import cv2
 import numpy as np 
 from scipy.optimize import fsolve

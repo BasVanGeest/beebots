@@ -16,7 +16,7 @@ class Camera:
         return np.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
     def process_frame(self, frame):
-        
+        flowers = []
         # Convert the frame to HSV
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
@@ -49,9 +49,9 @@ class Camera:
                         center = (int(x), int(y))
                         radius = int(radius)
                         cv2.circle(frame, center, radius, (0, 255, 0), 2)
-                        self.flowers.append((x,y,radius))
+                        flowers.append(((x,y),radius))
                         #print(x,y,radius)
-        return frame
+        return frame, flowers
     
     def draw_line(self, img, point1, point2, color=(0, 0, 0), thickness=2):
         cv2.line(img, tuple(map(int, point1)), tuple(map(int, point2)), color, thickness)
@@ -63,15 +63,15 @@ class Camera:
             print("no frame is set")
 
     def track_flowers(self):
-        self.frame = self.process_frame(self.frame)
+        self.frame, new_flowers = self.process_frame(self.frame)
 
-        for flower in self.flowers:
-            center, radius = (flower[0], flower[1]), flower[2]
+        for flower in new_flowers:
+            center, radius = flower[0], flower[1]
 
             # Check if a similar flower is already in the list
             found_similar = False
             for existing_flower in self.flowers:
-                if self.calculate_distance(center, existing_flower[0][-1]) < 30:  # Adjust the threshold as needed
+                if self.calculate_distance(center, existing_flower[0]) < 30:  # Adjust the threshold as needed
                     # Draw lines between the centers of similar flowers in the history
                     for i in range(1, len(existing_flower[0])):
                         self.draw_line(self.frame, existing_flower[0][i - 1], existing_flower[0][i])

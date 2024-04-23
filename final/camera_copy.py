@@ -1,11 +1,12 @@
 import cv2
-import numpy as np 
+import numpy as np
 
-def calculate_distance(point1, point2):
-        return np.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
+def calculate_distance(p1, p2):
+    return np.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
 
 def draw_line(img, point1, point2, color=(0, 0, 0), thickness=2):
-        cv2.line(img, tuple(map(int, point1)), tuple(map(int, point2)), color, thickness)
+    cv2.line(img, (int(point1[0]), int(point1[1])), (int(point2[0]), int(point2[1])), color, thickness)
+
 
 class Flower:
     def __init__(self, center, r):
@@ -29,14 +30,8 @@ class Camera:
         self.max_history = 100
         self.cap = cv2.VideoCapture(0)
 
-        ret,self.frame = self.cap.read()
-        if not ret:
-            raise "Failed to capture frame"
-
-    
-
     def process_frame(self, frame):
-        flowers = []
+        
         # Convert the frame to HSV
         hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
@@ -69,9 +64,10 @@ class Camera:
                         center = (int(x), int(y))
                         radius = int(radius)
                         cv2.circle(frame, center, radius, (0, 255, 0), 2)
-                        flowers.append(Flower((x,y), radius))
-                        
-        return frame, flowers
+                        self.flowers.append(Flower((x,y), radius))
+
+        return frame
+    
 
     def show_frame(self):
         try:
@@ -80,40 +76,31 @@ class Camera:
             print("no frame is set")
 
     def track_flowers(self):
-        self.frame, new_flowers = self.process_frame(self.frame)
+        ret,self.frame = self.cap.read()
+        if not ret:
+            raise "Failed to capture frame"
+        self.frame = self.process_frame(self.frame)
 
-        for flower in new_flowers:
-            center, radius = flower.center, flower.radius
-
-            # Check if a similar flower is already in the list
-            found_similar = False
-            for existing_flower in self.flowers:
-                if calculate_distance(center, existing_flower.center) < 30:  # Adjust the threshold as needed
-                    # Draw lines between the centers of similar flowers in the history
-                    for i in range(1, len(existing_flower.history)):
-                        draw_line(self.frame, existing_flower.history[i-1], existing_flower.history[i])
-                    # Add the current center to the history
-                    existing_flower.update(center)
-                    found_similar = True
-                    break
-
-            # If no similar flower is found, add the current flower to the list
-            if not found_similar:
-                # Initialize the history with the current center
-                self.flowers.append(Flower(center, radius))
-
-        # Trim the history to the maximum length
-        self.flowers = self.flowers[-self.max_history:]
-
+        # For every detected flower in the frame
+        for flower in self.flowers:
+            for saved_flower in self.flowers:
+                distance = calculate_distance(flower.center, saved_flower.center)
+                if distance < 30:
+                    saved_flower.update(flower.center)
+                    f_history = saved_flower.history
+                    for pos in f_history:
+                        cv2.circle(self.frame, (int(pos[0]), int(pos[1])), 1, saved_flower.color, 1)
+        
         self.show_frame()
 
     def release(self):
         self.cap.release()
         cv2.destroyAllWindows()
 
-if __name__ == '__main__':
-    cam = Camera()
-    while True:
-        cam.track_flowers()
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            cam.release()
+        
+cam = Camera()
+while True:
+    cam.track_flowers()
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        cam.release()
+        break

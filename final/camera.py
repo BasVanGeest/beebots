@@ -29,11 +29,14 @@ class Camera:
         self.max_history = 100
         self.cap = cv2.VideoCapture(0)
 
+        
+
+    
+    def get_frame(self):
         ret,self.frame = self.cap.read()
         if not ret:
             raise "Failed to capture frame"
 
-    
 
     def process_frame(self, frame):
         flowers = []
@@ -114,6 +117,7 @@ class Camera:
 if __name__ == '__main__':
     cam = Camera()
     while True:
+        cam.get_frame()
         cam.track_flowers()
         if cv2.waitKey(1) & 0xFF == ord('q'):
             cam.release()

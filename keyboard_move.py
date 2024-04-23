@@ -105,5 +105,6 @@ def main():
         elif keyboard.is_pressed('i'):
             init_scissor_arm()    
         time.sleep(0.1)   
-main()
+if __name__ == '__main__':
+    main()
 

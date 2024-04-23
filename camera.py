@@ -119,5 +119,6 @@ if __name__ == '__main__':
     while True:
         cam.get_frame()
         cam.track_flowers()
+        print(cam.frame.shape)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             cam.release()

@@ -77,8 +77,11 @@ def move_scissor_arm_pivot(angle_increment=None, angle_absolute=None):
         new_angle = angle_absolute
     else:
         return 
+    
+    print(new_angle)
 
     kit.servo[8].angle = new_angle
+    kit.servo[11].angle = new_angle
     SARM_PIVOT_ANGLE = new_angle
 
 def main():

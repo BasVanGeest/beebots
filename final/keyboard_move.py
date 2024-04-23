@@ -77,8 +77,9 @@ def move_scissor_arm_pivot(angle_increment=None, angle_absolute=None):
         new_angle = angle_absolute
     else:
         return 
-    
-    print(new_angle)
+
+    if new_angle < 0 or new_angle > 180:
+        return
 
     kit.servo[8].angle = new_angle
     kit.servo[11].angle = new_angle

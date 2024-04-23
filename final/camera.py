@@ -111,9 +111,9 @@ class Camera:
         self.cap.release()
         cv2.destroyAllWindows()
 
-        
-cam = Camera()
-while True:
-    cam.track_flowers()
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        cam.release()
+if __name__ == '__main__':
+    cam = Camera()
+    while True:
+        cam.track_flowers()
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            cam.release()

@@ -14,11 +14,11 @@ SARM_PIVOT_ANGLE = 80 #11
 
 
 def init_scissor_arm():
-    # global SARM_LINEAIR_DISTANCE, SARM_TURN_ANGLE, SARM_PIVOT_ANGLE
-    move_scissor_arm_lineair(distance_absolute=SARM_LINEAIR_DISTANCE)
+    global SARM_LINEAIR_DISTANCE, SARM_TURN_ANGLE, SARM_PIVOT_ANGLE
     SARM_LINEAIR_DISTANCE = 25 #0
     SARM_TURN_ANGLE = 0 #7
     SARM_PIVOT_ANGLE = 80 #11
+    move_scissor_arm_lineair(distance_absolute=SARM_LINEAIR_DISTANCE)
     kit.servo[7].angle = SARM_TURN_ANGLE
     kit.servo[8].angle = SARM_PIVOT_ANGLE
     kit.servo[11].angle = SARM_PIVOT_ANGLE 

@@ -84,13 +84,13 @@ class Camera:
 
     def track_flowers(self):
         self.frame, new_flowers = self.process_frame(self.frame)
-
+        remember = []
         for flower in new_flowers:
             center, radius = flower.center, flower.radius
-
+        
             # Check if a similar flower is already in the list
             found_similar = False
-            for existing_flower in self.flowers:
+            for index, existing_flower in enumerate(self.flowers):
                 if calculate_distance(center, existing_flower.center) < 30:  # Adjust the threshold as needed
                     # Draw lines between the centers of similar flowers in the history
                     for i in range(1, len(existing_flower.history)):
@@ -98,16 +98,19 @@ class Camera:
                     # Add the current center to the history
                     existing_flower.update(center)
                     found_similar = True
+                    remember.append(index)
                     break
 
             # If no similar flower is found, add the current flower to the list
             if not found_similar:
                 # Initialize the history with the current center
+                remember.append(len(self.flowers))
                 self.flowers.append(Flower(center, radius))
 
         # Trim the history to the maximum length
+        self.flowers = [self.flowers[i] for i in remember]
         self.flowers = self.flowers[-self.max_history:]
-
+        print([flower.center for flower in self.flowers])
         self.show_frame()
 
     def release(self):
@@ -119,6 +122,5 @@ if __name__ == '__main__':
     while True:
         cam.get_frame()
         cam.track_flowers()
-        print(cam.frame.shape)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             cam.release()

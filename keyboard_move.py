@@ -19,7 +19,7 @@ def init_scissor_arm():
     SARM_TURN_ANGLE = 0 #7
     SARM_PIVOT_ANGLE = 80 #11
     move_scissor_arm_lineair(distance_absolute=SARM_LINEAIR_DISTANCE)
-    kit.servo[7].angle = SARM_TURN_ANGLE
+    kit.servo[6].angle = SARM_TURN_ANGLE
     kit.servo[8].angle = SARM_PIVOT_ANGLE
     kit.servo[11].angle = SARM_PIVOT_ANGLE 
   
@@ -68,7 +68,7 @@ def move_scissor_arm_turn(angle_increment=None, angle_absolute=None):
         print("angle out of range")
         return
 
-    kit.servo[7].angle = new_angle
+    kit.servo[6].angle = new_angle
     SARM_TURN_ANGLE = new_angle
     print(new_angle)
 

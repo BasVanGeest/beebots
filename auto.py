@@ -66,12 +66,21 @@ def init():
 
 cam = init()
 while True:
-    goal = cam.flowers[0].center
-    move_to(goal)
     cam.get_frame()
-    cam.process_frame()
-    if not move_scissor_arm_lineair(distance_increment=1):
-        break
+    cam.track_flowers()
+    print(cam.flowers)
+    if len(cam.flowers) > 0:
+        
+        
+        goal = cam.flowers[0].center
+        print(goal)
+        move_to(goal)
+        time.sleep(1)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        cam.release()
+    # 
+        # if not move_scissor_arm_lineair(distance_increment=1):
+        #     break
 
         # if flower is still visible:    (maybe oustside loop)
         #     move closer?              (bloem moet onder de camera zitten)

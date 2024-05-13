@@ -16,7 +16,7 @@ SARM_PIVOT_ANGLE = 80 #11
 def init_scissor_arm():
     global SARM_LINEAIR_DISTANCE, SARM_TURN_ANGLE, SARM_PIVOT_ANGLE
     SARM_LINEAIR_DISTANCE = 25 #0
-    SARM_TURN_ANGLE = 0 #7
+    SARM_TURN_ANGLE = 40 #7
     SARM_PIVOT_ANGLE = 80 #11
     move_scissor_arm_lineair(distance_absolute=SARM_LINEAIR_DISTANCE)
     kit.servo[6].angle = SARM_TURN_ANGLE
@@ -33,7 +33,7 @@ def move_scissor_arm_lineair(distance_increment=None, distance_absolute=None):
         return
     
     if new_distance > 45 or new_distance < 25:
-        return
+        return False
     
     print(SARM_LINEAIR_DISTANCE)
     
@@ -54,6 +54,7 @@ def move_scissor_arm_lineair(distance_increment=None, distance_absolute=None):
 
     kit.servo[9].angle = new_angle
     SARM_LINEAIR_DISTANCE = new_distance
+    return True
 
 def move_scissor_arm_turn(angle_increment=None, angle_absolute=None):
     global SARM_TURN_ANGLE

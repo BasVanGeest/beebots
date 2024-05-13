@@ -20,7 +20,7 @@ mid_point = (240,320)
 draai camera naar juiste positie
 scan bloemen
 kies bloem
-onthoud start positie
+onthoud start positie  # turn==40, pivot==80, linear==25
 ga naar bloem (center bloem in het midden terwijl je dichter bij beweegt)
 keer terug naar start positie
 """
@@ -55,10 +55,29 @@ while true:
 
 """
 
-cam = Camera()
-while True:
+
+def init():
+    init_scissor_arm()
+    cam = Camera()
     cam.get_frame()
     cam.track_flowers()
+    return cam
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        cam.release()
+
+cam = init()
+while True:
+    goal = cam.flowers[0].center
+    move_to(goal)
+    cam.get_frame()
+    cam.process_frame()
+    if not move_scissor_arm_lineair(distance_increment=1):
+        break
+
+        # if flower is still visible:    (maybe oustside loop)
+        #     move closer?              (bloem moet onder de camera zitten)
+        # else:
+        #     break
+# while True:
+
+#     if cv2.waitKey(1) & 0xFF == ord('q'):
+#         cam.release()

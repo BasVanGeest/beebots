@@ -28,14 +28,14 @@ keer terug naar start positie
 
 def move_to(flower):
     if flower[0] < mid_point[0]: # down
-        move_scissor_arm_pivot(angle_increment=-3)
+        move_scissor_arm_pivot(angle_increment=3)
     elif flower[0] < mid_point[0]: # up
         move_scissor_arm_pivot(angle_increment=-3)
 
     if flower[1] < mid_point[1]: #! left?
         move_scissor_arm_turn(angle_increment=-5)
     elif flower[1] < mid_point[1]: #! right? 
-        move_scissor_arm_turn(angle_increment=-5)
+        move_scissor_arm_turn(angle_increment=5)
 
 
 #TODO: turn camera sideways (kwast moet onder de camera)
@@ -61,6 +61,8 @@ def init():
     cam = Camera()
     cam.get_frame()
     cam.track_flowers()
+    w,h = cam.frame_size()
+    mid_point = (w/2,h/2)
     return cam
 
 
@@ -68,16 +70,18 @@ cam = init()
 while True:
     cam.get_frame()
     cam.track_flowers()
-    print(cam.flowers)
     if len(cam.flowers) > 0:
         
         
         goal = cam.flowers[0].center
         print(goal)
+        print(mid_point)
         move_to(goal)
-        time.sleep(1)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         cam.release()
+
+
+
     # 
         # if not move_scissor_arm_lineair(distance_increment=1):
         #     break

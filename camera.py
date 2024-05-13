@@ -117,6 +117,11 @@ class Camera:
         self.cap.release()
         cv2.destroyAllWindows()
 
+    def frame_size(self):
+        width  = self.cap.get(3)  # float `width`
+        height = self.cap.get(4)  # float heigth
+        return (width,height)
+
 if __name__ == '__main__':
     cam = Camera()
     while True:

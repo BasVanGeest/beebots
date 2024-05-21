@@ -11,17 +11,17 @@ for i in range(16):
 SARM_LINEAIR_DISTANCE = 25 #0
 SARM_TURN_ANGLE = 0 #7
 SARM_PIVOT_ANGLE = 80 #11
+RIG_HORIZONTAL_POS = 0
 
 
 def init_scissor_arm():
     global SARM_LINEAIR_DISTANCE, SARM_TURN_ANGLE, SARM_PIVOT_ANGLE
     SARM_LINEAIR_DISTANCE = 25 #0
-    SARM_TURN_ANGLE = 40 #7
+    SARM_TURN_ANGLE = 0 #7
     SARM_PIVOT_ANGLE = 80 #11
-    move_scissor_arm_lineair(distance_absolute=SARM_LINEAIR_DISTANCE)
-    kit.servo[6].angle = SARM_TURN_ANGLE
-    kit.servo[8].angle = SARM_PIVOT_ANGLE
-    kit.servo[11].angle = SARM_PIVOT_ANGLE 
+    kit.servo[6].angle = 0
+    kit.servo[8].angle = 80
+    kit.servo[11].angle = 25 
   
 def move_scissor_arm_lineair(distance_increment=None, distance_absolute=None):
     global SARM_LINEAIR_DISTANCE
@@ -81,17 +81,34 @@ def move_scissor_arm_pivot(angle_increment=None, angle_absolute=None):
         new_angle = angle_absolute
     else:
         return 
+    print(new_angle)
+    if new_angle < 0 or new_angle > 90:
+        return False
 
-    if new_angle < 0 or new_angle > 180:
-        return
-
+   
     kit.servo[8].angle = new_angle
     kit.servo[11].angle = new_angle
     SARM_PIVOT_ANGLE = new_angle
 
+def move_horizontal(angle_increment=None, angle_absolute=None):
+    if angle_increment:
+        new_angle = RIG_HORIZONTAL_POS + angle_increment
+    elif angle_absolute:
+        new_angle = angle_absolute
+    else:
+        return 
+
+    # kit.servo[].angle = new_angle
+    # kit.servo[].angle = new_angle
+    # kit.servo[].angle = -new_angle
+    # kit.servo[].angle = -new_angle
+    RIG_HORIZONTAL_POS = new_angle
+
+
 def main():
     while True:
         if keyboard.is_pressed('left'):
+            # print("test")
             move_scissor_arm_pivot(angle_increment=3)
         elif keyboard.is_pressed('right'):
             move_scissor_arm_pivot(angle_increment=-3)
@@ -103,9 +120,9 @@ def main():
             move_scissor_arm_lineair(distance_increment=2)
         elif keyboard.is_pressed('down'):
             move_scissor_arm_lineair(distance_increment=-2)
+            print("test")
         elif keyboard.is_pressed('i'):
             init_scissor_arm()    
         time.sleep(0.1)   
 if __name__ == '__main__':
     main()
-
